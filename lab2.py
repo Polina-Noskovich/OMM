@@ -3,6 +3,8 @@ from math import inf
 import numpy as np
 from lab1 import MyMatrixInversion
 
+# c - koef celev func
+# b - mn ind bazisn perem /baz dop plan
 def MySimplexMethodMainPhase(c: np.ndarray, x: np.ndarray, A: np.ndarray, B: np.ndarray):
     Is_First_Lap = True
     new_index = 0
@@ -11,8 +13,7 @@ def MySimplexMethodMainPhase(c: np.ndarray, x: np.ndarray, A: np.ndarray, B: np.
     iteration = 1
     
     while True:
-        #print(f'-----------ITERATION N{iteration}---------------')
-        #step 1
+        #STEP 1
         A_B = A[:, np.array(B) - 1]
         
         #print ('A base')
@@ -32,47 +33,47 @@ def MySimplexMethodMainPhase(c: np.ndarray, x: np.ndarray, A: np.ndarray, B: np.
         #print(A_I_B)
         #print('\n')
             
-        #step 2
+        #STEP 2
         c_B = c[np.array(B) - 1]
         
-        #print('c with base indexes')
-        #print(c_B)
+        #print('c component with base indexes')
+        #print(c_B - vector comp vect c with baz ind)
         #print('\n')
         
-        #step 3
+        #STEP 3
         u = c_B.dot(A_I_B)
         
-        #print('u')
+        #print('u vector potencialov')
         #print(u)
         #print('\n')
         
-        #step 4
+        #STEP 4
         delta = u.dot(A) - c
         
-        #print('estimates vector')
+        #print('estimates vector(ocenok)')
         #print(delta)
         #print('\n')
         
-        #step 5
+        #STEP 5
         if np.all(delta >= 0):
             #print('found optimal plan')
             return x, B
         
-        #step 6
+        #STEP 6
         j0 = (delta < 0).argmax() + 1
         
         #print('index of first negative number')
         #print(j0)
         #print('\n')
         
-        #step 7
+        #STEP 7
         z = A_I_B.dot(A[:,j0 - 1])
         
-        #print('z')
+        #print('z vector napravleniy')
         #print(z)
         #print('\n')
         
-        #step 8-9(didn't create whole vector because it's unnecessary)
+        #STEP 8-9(didn't create whole vector because it's unnecessary)
         teta0 = inf
         k = -1
         for i in range(m):
@@ -87,25 +88,25 @@ def MySimplexMethodMainPhase(c: np.ndarray, x: np.ndarray, A: np.ndarray, B: np.
         #print(teta0)
         #print('\n')
         
-        #step 10
+        #STEP 10
         if teta0 == inf:
             #print('objective function is not limited from above on a set of acceptable plans')
             return
         
-        #step 11
+        #STEP 11
         j_Star = B[k-1]
         
-        #print('k')
+        #print('k first index na kotor dostig minimum')
         #print(k)
         #print('\n')
-        #print('j_Star')
+        #print('j_Star = k-iy bazisny index iz B')
         #print(j_Star)
         #print('\n')
         
-        #step 12
+        #STEP 12
         B[k-1] = j0
         
-        #step 13
+        #STEP 13
         for i in range (m):
             x[int(B[i] - 1)] = x[int(B[i] - 1)] - teta0*z[i] if i != k-1 else x[int(B[i] - 1)]
             
