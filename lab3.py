@@ -1,9 +1,8 @@
-
 import numpy as np
 from lab2 import MySimplexMethodMainPhase
 
 def MySimplexMethodStartPhase(c: np.ndarray, A: np.ndarray, b: np.ndarray):
-# step 1 - vect prav ch b neotr
+# step 1
     negative_index = b < 0
     A[negative_index] *= -1
     b[negative_index] *= -1
@@ -12,23 +11,20 @@ def MySimplexMethodStartPhase(c: np.ndarray, A: np.ndarray, b: np.ndarray):
     print("\nb")
     print(b)
 
-# step 2 - vspomog zad lin progr
+# step 2 
     m, n = A.shape
     
-    c_wave = np.zeros(n + m)
+    c_wave = np.zeros(n + m) 
     c_wave[n:] = -1
     print("\nC_Wave")
     print(c_wave)
     
-    # x (n+1..n+m) - iskusstv perem
-
-    # pris sprav ed matr por m
     identity_matrix = np.eye(m)
     A_wave = np.hstack((A, identity_matrix))
     print("\nA_Wave")
     print(A_wave)
     
-# step 3 - stroim nachal baz pl
+# step 3 
     x_wave = np.zeros(n + m)
     x_wave[n:] = b[:]
     print("\nx_wave")
@@ -38,29 +34,29 @@ def MySimplexMethodStartPhase(c: np.ndarray, A: np.ndarray, b: np.ndarray):
     print("\nB")
     print(B)
     
-# step 4 - resh vspm zad
+# step 4 
     x_wave, B = MySimplexMethodMainPhase(c_wave, x_wave, A_wave, B)
     print("\nx_wave")
     print(x_wave)
     print("\nB")
     print(B)
     
-# step 5 - prov usl sovm usl sovm =0 - sist sovm
+# step 5 -
     if np.any(x_wave[n] > 0):
         raise Exception("problem is not feasible")
     
-# step 6 - formir dop pl x
+# step 6 
     x = x_wave[:n]
     print("\nx")
     print(x)
     
     while True:
-# step 7 - vozm zaversh (B prinadl 1..n)
+# step 7
         
         if all(bi <= n for bi in B):
-            return x, B, A, b
+            return x, B, A, b 
         
-# step 8 - viberem  v B max ind issk per
+# step 8 
         j_k = max(B)
         k = B.index(j_k) + 1
         print("\nj_k")
@@ -69,7 +65,7 @@ def MySimplexMethodStartPhase(c: np.ndarray, A: np.ndarray, b: np.ndarray):
         print("\nk")
         print(k)
         
-# step 9 - vich vect dla kagdogo ind
+# step 9 
         j_NB = [i+1 for i in range(n) if all(bi - 1 != i for bi in B)]
         print("\nj_NB")
         print(j_NB)
@@ -83,14 +79,14 @@ def MySimplexMethodStartPhase(c: np.ndarray, A: np.ndarray, b: np.ndarray):
         print("\nl")
         print(l)
 
-# step 10 - esl naid ind tak chto ... to zamenim
+# step 10 
         found = False
         for j,l_j in l:
             if l_j[k-1] != 0:
                 found = True
                 B[k - 1] = j
 
-# step 11 esli dla lubogo ind vipoln lk=0
+# step 11 
         if not found:
             i = j_k - n
             

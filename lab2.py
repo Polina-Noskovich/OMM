@@ -3,8 +3,6 @@ from math import inf
 import numpy as np
 from lab1 import MyMatrixInversion
 
-# c - koef celev func
-# b - mn ind bazisn perem /baz dop plan
 def MySimplexMethodMainPhase(c: np.ndarray, x: np.ndarray, A: np.ndarray, B: np.ndarray):
     Is_First_Lap = True
     new_index = 0
@@ -37,20 +35,20 @@ def MySimplexMethodMainPhase(c: np.ndarray, x: np.ndarray, A: np.ndarray, B: np.
         c_B = c[np.array(B) - 1]
         
         #print('c component with base indexes')
-        #print(c_B - vector comp vect c with baz ind)
+        #print(c_B)
         #print('\n')
         
         #STEP 3
         u = c_B.dot(A_I_B)
         
-        #print('u vector potencialov')
+        #print('u')
         #print(u)
         #print('\n')
         
         #STEP 4
         delta = u.dot(A) - c
         
-        #print('estimates vector(ocenok)')
+        #print('estimates vector')
         #print(delta)
         #print('\n')
         
@@ -69,7 +67,7 @@ def MySimplexMethodMainPhase(c: np.ndarray, x: np.ndarray, A: np.ndarray, B: np.
         #STEP 7
         z = A_I_B.dot(A[:,j0 - 1])
         
-        #print('z vector napravleniy')
+        #print('z')
         #print(z)
         #print('\n')
         
@@ -96,10 +94,10 @@ def MySimplexMethodMainPhase(c: np.ndarray, x: np.ndarray, A: np.ndarray, B: np.
         #STEP 11
         j_Star = B[k-1]
         
-        #print('k first index na kotor dostig minimum')
+        #print('k')
         #print(k)
         #print('\n')
-        #print('j_Star = k-iy bazisny index iz B')
+        #print('j_Star = k')
         #print(j_Star)
         #print('\n')
         
@@ -112,7 +110,6 @@ def MySimplexMethodMainPhase(c: np.ndarray, x: np.ndarray, A: np.ndarray, B: np.
             
         x[j_Star - 1] = 0
         x[j0 - 1] = teta0
-        #print('x')
         #print(x)
         #print('\n')
             
