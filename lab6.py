@@ -1,10 +1,10 @@
 import numpy as np
 import math
 
-
+# Задача квадратичного программирования —> это оптимизационная задача -> Допустимый план x -> правильный опорный план
 def is_negative(value):
     for item in range(len(value)):
-        if value[item] < 0:
+        if value[item] < 0:  # для всяк вектора x выполн нерав
             return value[item], item
     return None, None
 
@@ -16,10 +16,13 @@ def get_submatrix_d(D, J_):
         for second_index in J_:
             new_D[i][j] = D[first_index][second_index]
             j += 1
-        i += 1
+        i += 1    # обратимая матрица Аb
         j = 0
     return new_D
 
+# найдется подмножество Jb* множества индексов переменных
+# для каждого индекса j ∈ Jbзвездочка выполняется ∆j (x) = 0, где 
+# c'(x) = c' + x'*D; u'(x) = -cb'(x)*Ab^-1; ∆'(x) = u'(x)*A + c'(x)
 
 def get_vector_b_star(j0, J_, D, A):
     A_j = A[:, j0]
@@ -31,6 +34,12 @@ def get_vector_b_star(j0, J_, D, A):
     b_star = np.concatenate((D_j, A_j), axis=0)
     return b_star
 
+# следующая блочная матрица обратима
+# H = (D* -- A(b*)')
+#     (A(b*) --   0)
+# где D* — это подматрица матрицы D, составленная из элементов,
+# стоящих на пересечении строк и столбцов с индексами из множества J(b*);
+# A(b*) — матрица, состоящая из столбцов матрицы A с индексами из множества J(b*)
 
 def update(Jb, Jb_star, j0, teta_j0, B, A):
     # случай 1
@@ -58,6 +67,8 @@ def update(Jb, Jb_star, j0, teta_j0, B, A):
             return
         Jb[s] = j0
         Jb_star[Jb_star.index(teta_j0)] = j0
+
+# Множество Jb называется опорой ограничений, а множество J(b*) — расширенной опорой ограничений.
 
 
 def catere_vector_l(D, B, Ab, J_, j0):
@@ -136,3 +147,4 @@ if __name__ == '__main__':
 
     x = quadratic_programming(A, D, b, c, J_on, J_ast, x)
     print(x)
+
